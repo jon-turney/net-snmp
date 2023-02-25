@@ -1,0 +1,26 @@
+name: Cygwin
+
+on: [push, pull_request]
+
+jobs:
+  cygwin_build:
+    runs-on: windows-latest
+
+    steps:
+    - run: git config --global core.autocrlf input
+    - uses: actions/checkout@v3
+
+    - name: install required packages
+      uses: cygwin/cygwin-install-action@master
+      with:
+        packages: >-
+          gcc-core
+          libncurses-devel
+          libpcre-devel
+          libssl-devel
+          libwrap-devel
+          pkg-config
+          python3-devel
+
+    - name: build
+      run: bash ci/build.sh
